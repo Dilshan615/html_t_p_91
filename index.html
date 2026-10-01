@@ -1,0 +1,1229 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dilshan | Creative 3D Developer & Spatial UI Engineer</title>
+  <meta name="description" content="Modern 3D Portfolio showcasing interactive WebGL, Three.js, and high-performance fullstack web applications.">
+  
+  <!-- Favicon -->
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220%22 width=%22100%22 height=%22100%22><text y=%22.9em%22 font-size=%2290%22>⚡</text></svg>">
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            cyber: {
+              dark: '#07090e',
+              panel: '#0e1320',
+              cyan: '#00f0ff',
+              purple: '#a855f7',
+              pink: '#ec4899',
+              blue: '#3b82f6',
+            }
+          },
+          fontFamily: {
+            sans: ['Outfit', 'sans-serif'],
+            display: ['Space Grotesk', 'sans-serif'],
+            mono: ['JetBrains Mono', 'monospace'],
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <!-- Three.js CDN -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
+  <!-- VanillaTilt CDN for 3D Tilt Effect -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.8.0/vanilla-tilt.min.js"></script>
+
+  <!-- Custom Stylesheet -->
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="bg-cyber-dark text-slate-100 selection:bg-cyan-500 selection:text-black relative">
+
+  <!-- Custom Glowing Cursor -->
+  <div class="cursor-dot"></div>
+  <div class="cursor-outline"></div>
+
+  <!-- Ambient Light Orbs -->
+  <div class="ambient-glow-1 top-20 left-10"></div>
+  <div class="ambient-glow-2 top-96 right-10"></div>
+  <div class="ambient-glow-1 bottom-40 left-1/3"></div>
+
+  <!-- Background Cyber Grid -->
+  <div class="fixed inset-0 bg-cyber-grid pointer-events-none opacity-40 z-0"></div>
+
+  <!-- Navigation Bar -->
+  <header class="fixed top-0 left-0 w-full z-50 px-4 sm:px-8 py-4 transition-all duration-300">
+    <div class="max-w-7xl mx-auto glass-panel rounded-2xl px-5 sm:px-6 py-3.5 flex items-center justify-between border border-white/10 shadow-2xl backdrop-blur-xl">
+      
+      <!-- Brand Logo -->
+      <a href="#hero" class="flex items-center gap-3 group">
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-cyan-500 to-purple-600 flex items-center justify-center font-display font-black text-xl text-black shadow-lg shadow-cyan-500/25 group-hover:scale-105 transition-transform duration-300">
+          D
+        </div>
+        <div>
+          <span class="font-display font-bold text-lg tracking-wider text-white flex items-center gap-1.5">
+            DILSHAN <span class="w-2 h-2 rounded-full bg-cyan-400 animate-ping"></span>
+          </span>
+          <span class="block text-[10px] font-mono text-cyan-400 tracking-widest uppercase">Creative Dev</span>
+        </div>
+      </a>
+
+      <!-- Desktop Navigation Links with Scrollspy Support -->
+      <nav class="hidden lg:flex items-center gap-8 font-medium text-sm text-slate-300">
+        <a href="#hero" class="nav-link active hover:text-cyan-400 transition-colors duration-200">Core</a>
+        <a href="#about" class="nav-link hover:text-cyan-400 transition-colors duration-200">About</a>
+        <a href="#projects" class="nav-link hover:text-cyan-400 transition-colors duration-200">Projects</a>
+        <a href="#skills" class="nav-link hover:text-cyan-400 transition-colors duration-200">Tech Matrix</a>
+        <a href="#experience" class="nav-link hover:text-cyan-400 transition-colors duration-200">Journey</a>
+        <a href="#contact" class="nav-link hover:text-cyan-400 transition-colors duration-200">Contact</a>
+      </nav>
+
+      <!-- Right Action Area -->
+      <div class="flex items-center gap-3 sm:gap-4">
+        
+        <!-- 3D Spectrum Theme Selector -->
+        <div class="hidden sm:flex items-center gap-1.5 p-1 rounded-xl bg-white/[0.04] border border-white/10" title="Switch 3D Hologram Spectrum">
+          <button class="theme-btn w-6 h-6 rounded-lg bg-cyan-400 ring-2 ring-white transition-all hover:scale-110" data-theme="cyan" title="Cyan Neon Spectrum"></button>
+          <button class="theme-btn w-6 h-6 rounded-lg bg-purple-500 transition-all hover:scale-110" data-theme="purple" title="Violet Pulse Spectrum"></button>
+          <button class="theme-btn w-6 h-6 rounded-lg bg-emerald-400 transition-all hover:scale-110" data-theme="emerald" title="Matrix Emerald Spectrum"></button>
+        </div>
+
+        <!-- Sound FX Toggle Button -->
+        <button id="sound-toggle" title="Toggle Cyber Sound FX" class="p-2.5 rounded-xl border border-white/10 hover:border-cyan-400/50 bg-white/5 hover:bg-cyan-500/10 text-cyan-400 transition-all duration-200">
+          <i data-lucide="volume-2" id="sound-icon" class="w-4 h-4"></i>
+        </button>
+
+        <!-- CTA Button -->
+        <a href="#contact" class="btn-action hidden md:flex relative group overflow-hidden px-5 py-2.5 rounded-xl font-medium text-sm text-black bg-cyan-400 hover:bg-cyan-300 transition-all duration-300 shadow-lg shadow-cyan-500/30 items-center gap-2">
+          <span class="relative z-10 font-bold">Initiate Talk</span>
+          <i data-lucide="arrow-up-right" class="w-4 h-4 relative z-10 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform duration-200"></i>
+        </a>
+
+        <!-- Mobile Hamburger Button -->
+        <button id="mobile-menu-btn" class="lg:hidden p-2 rounded-xl text-slate-300 hover:text-white hover:bg-white/10 transition-colors">
+          <i data-lucide="menu" class="w-6 h-6"></i>
+        </button>
+      </div>
+    </div>
+
+    <!-- Mobile Dropdown Menu -->
+    <div id="mobile-menu" class="hidden lg:hidden max-w-7xl mx-auto mt-2 glass-panel rounded-2xl p-6 border border-white/10 flex flex-col gap-4 animate-in fade-in duration-200">
+      <a href="#hero" class="mobile-nav-link text-slate-200 hover:text-cyan-400 font-medium py-2 border-b border-white/5">Core</a>
+      <a href="#about" class="mobile-nav-link text-slate-200 hover:text-cyan-400 font-medium py-2 border-b border-white/5">About</a>
+      <a href="#projects" class="mobile-nav-link text-slate-200 hover:text-cyan-400 font-medium py-2 border-b border-white/5">Projects</a>
+      <a href="#skills" class="mobile-nav-link text-slate-200 hover:text-cyan-400 font-medium py-2 border-b border-white/5">Tech Matrix</a>
+      <a href="#experience" class="mobile-nav-link text-slate-200 hover:text-cyan-400 font-medium py-2 border-b border-white/5">Journey</a>
+      <a href="#contact" class="mobile-nav-link text-slate-200 hover:text-cyan-400 font-medium py-2">Contact</a>
+      <div class="pt-2 flex items-center justify-between border-t border-white/10">
+        <span class="text-xs font-mono text-slate-400">Spectrum:</span>
+        <div class="flex items-center gap-2">
+          <button class="theme-btn w-6 h-6 rounded-lg bg-cyan-400" data-theme="cyan"></button>
+          <button class="theme-btn w-6 h-6 rounded-lg bg-purple-500" data-theme="purple"></button>
+          <button class="theme-btn w-6 h-6 rounded-lg bg-emerald-400" data-theme="emerald"></button>
+        </div>
+      </div>
+      <div>
+        <a href="#contact" class="block text-center py-3 bg-cyan-400 text-black font-bold rounded-xl shadow-lg shadow-cyan-500/20">Initiate Talk</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- HERO SECTION WITH 3D CANVAS -->
+  <section id="hero" class="relative min-h-screen flex items-center justify-center pt-28 pb-16 px-4 sm:px-8 overflow-hidden">
+    
+    <!-- Three.js 3D WebGL Canvas Layer -->
+    <div id="canvas-container" class="absolute inset-0 w-full h-full pointer-events-auto z-10 opacity-90 cursor-grab active:cursor-grabbing" title="Click or Drag on 3D Core"></div>
+
+    <!-- Hero Foreground Content -->
+    <div class="relative z-20 max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-12 gap-12 items-center pointer-events-none">
+      
+      <!-- Text Area -->
+      <div class="lg:col-span-8 space-y-6 pointer-events-auto">
+        
+        <!-- Status Pill -->
+        <div class="inline-flex items-center gap-2.5 px-4 py-2 rounded-full glass-panel border border-cyan-500/30 text-xs font-mono text-cyan-300 shadow-lg shadow-cyan-500/10">
+          <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse"></span>
+          <span>AVAILABLE FOR FREELANCE & PRODUCT DESIGN</span>
+        </div>
+
+        <!-- Main Headline -->
+        <div class="space-y-2">
+          <p class="text-sm sm:text-base font-mono uppercase tracking-[0.25em] text-slate-400">Next-Gen Web Experiences</p>
+          <h1 class="text-4xl sm:text-6xl md:text-7xl font-extrabold font-display leading-[1.1] tracking-tight">
+            Architecting <span class="text-gradient-neon">3D Spatial</span> & High-End Digital Products.
+          </h1>
+        </div>
+
+        <!-- Subtitle -->
+        <p class="text-slate-300 text-base sm:text-lg md:text-xl max-w-2xl font-light leading-relaxed">
+          Fullstack engineer & creative developer crafting immersive WebGL 3D graphics, ultra-fast web platforms, and human-centric digital interfaces.
+        </p>
+
+        <!-- CTA Buttons -->
+        <div class="pt-4 flex flex-wrap items-center gap-4">
+          <a href="#projects" class="btn-action px-8 py-4 rounded-xl font-bold text-sm bg-gradient-to-r from-cyan-400 via-sky-400 to-purple-500 text-black shadow-xl shadow-cyan-500/30 hover:scale-[1.03] transition-all duration-300 flex items-center gap-2.5">
+            <i data-lucide="sparkles" class="w-5 h-5"></i>
+            <span>Explore 3D Work</span>
+          </a>
+
+          <a href="#contact" class="btn-action px-7 py-4 rounded-xl font-semibold text-sm glass-panel border border-white/15 hover:border-cyan-400/50 hover:bg-white/10 text-white transition-all duration-300 flex items-center gap-2">
+            <i data-lucide="send" class="w-4 h-4 text-cyan-400"></i>
+            <span>Transmission Portal</span>
+          </a>
+        </div>
+
+        <!-- Tech Quick Badges -->
+        <div class="pt-6 flex flex-wrap items-center gap-3">
+          <span class="text-xs font-mono text-slate-400 uppercase tracking-wider">Core Engine:</span>
+          <span class="tech-pill px-3 py-1.5 rounded-lg text-xs font-mono text-cyan-300 flex items-center gap-1.5">
+            <i data-lucide="box" class="w-3.5 h-3.5"></i> Three.js / WebGL
+          </span>
+          <span class="tech-pill px-3 py-1.5 rounded-lg text-xs font-mono text-purple-300 flex items-center gap-1.5">
+            <i data-lucide="layers" class="w-3.5 h-3.5"></i> Tailwind CSS
+          </span>
+          <span class="tech-pill px-3 py-1.5 rounded-lg text-xs font-mono text-emerald-300 flex items-center gap-1.5">
+            <i data-lucide="code-2" class="w-3.5 h-3.5"></i> JavaScript / TS
+          </span>
+          <span class="tech-pill px-3 py-1.5 rounded-lg text-xs font-mono text-pink-300 flex items-center gap-1.5">
+            <i data-lucide="cpu" class="w-3.5 h-3.5"></i> Fullstack Apps
+          </span>
+        </div>
+      </div>
+
+      <!-- Right 3D Floating Interactive HUD Card -->
+      <div class="lg:col-span-4 pointer-events-auto">
+        <div class="tilt-card glass-panel rounded-3xl p-6 border border-white/15 shadow-2xl relative overflow-hidden backdrop-blur-2xl">
+          
+          <!-- Hologram Scan Line -->
+          <div class="absolute inset-0 bg-gradient-to-b from-transparent via-cyan-500/10 to-transparent h-12 w-full animate-float pointer-events-none"></div>
+
+          <div class="tilt-card-content space-y-5">
+            <!-- Header status -->
+            <div class="flex items-center justify-between border-b border-white/10 pb-4">
+              <div class="flex items-center gap-2">
+                <span class="w-2.5 h-2.5 rounded-full bg-cyan-400 animate-ping"></span>
+                <span class="font-mono text-xs uppercase text-slate-300 font-semibold tracking-wider">SYSTEM DIAGNOSTIC</span>
+              </div>
+              <span class="font-mono text-[11px] px-2 py-0.5 rounded bg-cyan-500/20 text-cyan-300 border border-cyan-500/30">ONLINE</span>
+            </div>
+
+            <!-- Metric 1 -->
+            <div class="p-3.5 rounded-2xl bg-white/[0.03] border border-white/5 flex items-center justify-between">
+              <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-xl bg-cyan-500/10 border border-cyan-500/30 flex items-center justify-center text-cyan-400">
+                  <i data-lucide="zap" class="w-5 h-5"></i>
+                </div>
+                <div>
+                  <div class="text-xs font-mono text-slate-400">Render Speed</div>
+                  <div class="font-bold text-white text-sm">60 FPS Ultra-Smooth</div>
+                </div>
+              </div>
+              <div class="text-right">
+                <span class="text-xs font-mono text-cyan-400">WebGL 2.0</span>
+              </div>
+            </div>
+
+            <!-- Metric 2 -->
+            <div class="p-3.5 rounded-2xl bg-white/[0.03] border border-white/5 flex items-center justify-between">
+              <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-xl bg-purple-500/10 border border-purple-500/30 flex items-center justify-center text-purple-400">
+                  <i data-lucide="shield-check" class="w-5 h-5"></i>
+                </div>
+                <div>
+                  <div class="text-xs font-mono text-slate-400">Design Precision</div>
+                  <div class="font-bold text-white text-sm">Pixel Perfect UI/UX</div>
+                </div>
+              </div>
+              <div class="text-right">
+                <span class="text-xs font-mono text-purple-400">100% Responsive</span>
+              </div>
+            </div>
+
+            <!-- Metric 3 -->
+            <div class="p-3.5 rounded-2xl bg-white/[0.03] border border-white/5 flex items-center justify-between">
+              <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-xl bg-pink-500/10 border border-pink-500/30 flex items-center justify-center text-pink-400">
+                  <i data-lucide="globe" class="w-5 h-5"></i>
+                </div>
+                <div>
+                  <div class="text-xs font-mono text-slate-400">Worldwide Clients</div>
+                  <div class="font-bold text-white text-sm">Global Remote Ready</div>
+                </div>
+              </div>
+              <div class="text-right">
+                <span class="text-xs font-mono text-pink-400">24/7 Transmit</span>
+              </div>
+            </div>
+
+            <div class="pt-2 text-center">
+              <span class="font-mono text-[11px] text-slate-400 flex items-center justify-center gap-1.5">
+                <i data-lucide="mouse-pointer" class="w-3.5 h-3.5 text-cyan-400"></i> Click Canvas to Explode Particles
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Scroll Down Indicator -->
+    <a href="#about" class="absolute bottom-6 left-1/2 -translate-x-1/2 z-20 flex flex-col items-center gap-2 text-slate-400 hover:text-cyan-400 transition-colors">
+      <span class="text-[11px] font-mono tracking-widest uppercase">Scroll Down</span>
+      <i data-lucide="chevron-down" class="w-4 h-4 animate-bounce text-cyan-400"></i>
+    </a>
+  </section>
+
+  <!-- STATS COUNTER STRIP -->
+  <section id="stats-section" class="py-12 relative z-20 border-y border-white/10 bg-black/40 backdrop-blur-md">
+    <div class="max-w-7xl mx-auto px-4 sm:px-8 grid grid-cols-2 md:grid-cols-4 gap-8">
+      
+      <!-- Stat 1 -->
+      <div class="text-center space-y-1">
+        <div class="text-3xl sm:text-5xl font-extrabold font-display text-gradient-cyan counter-val" data-target="5" data-suffix="+">0</div>
+        <div class="text-xs sm:text-sm font-mono text-slate-400 uppercase tracking-wider">Years Experience</div>
+      </div>
+
+      <!-- Stat 2 -->
+      <div class="text-center space-y-1">
+        <div class="text-3xl sm:text-5xl font-extrabold font-display text-gradient-purple counter-val" data-target="48" data-suffix="+">0</div>
+        <div class="text-xs sm:text-sm font-mono text-slate-400 uppercase tracking-wider">Projects Shipped</div>
+      </div>
+
+      <!-- Stat 3 -->
+      <div class="text-center space-y-1">
+        <div class="text-3xl sm:text-5xl font-extrabold font-display text-gradient-cyan counter-val" data-target="99" data-suffix="%">0</div>
+        <div class="text-xs sm:text-sm font-mono text-slate-400 uppercase tracking-wider">Positive Feedback</div>
+      </div>
+
+      <!-- Stat 4 -->
+      <div class="text-center space-y-1">
+        <div class="text-3xl sm:text-5xl font-extrabold font-display text-gradient-purple counter-val" data-target="150" data-suffix="K+">0</div>
+        <div class="text-xs sm:text-sm font-mono text-slate-400 uppercase tracking-wider">Lines Of Code</div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ABOUT ME SECTION -->
+  <section id="about" class="py-28 relative z-20 px-4 sm:px-8 max-w-7xl mx-auto">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+      
+      <!-- 3D Holographic Profile Avatar Card -->
+      <div class="lg:col-span-5 flex justify-center">
+        <div class="tilt-card w-full max-w-md relative group">
+          
+          <!-- Outer Neon Halo -->
+          <div class="absolute -inset-1.5 bg-gradient-to-r from-cyan-500 via-purple-600 to-pink-500 rounded-3xl blur-lg opacity-70 group-hover:opacity-100 transition duration-500"></div>
+
+          <!-- Card Content -->
+          <div class="relative glass-panel rounded-3xl p-4 sm:p-6 border border-white/20 overflow-hidden">
+            
+            <!-- Avatar Image -->
+            <div class="relative rounded-2xl overflow-hidden aspect-square border border-white/10 shadow-2xl">
+              <img src="assets/avatar.jpg" alt="Dilshan Creative Developer 3D Avatar" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
+              
+              <!-- Cyber Badge on Avatar -->
+              <div class="absolute bottom-3 left-3 right-3 glass-panel rounded-xl p-3 border border-white/20 flex items-center justify-between backdrop-blur-xl">
+                <div>
+                  <h4 class="font-display font-bold text-sm text-white">Dilshan</h4>
+                  <p class="text-xs font-mono text-cyan-300">Creative Tech Architect</p>
+                </div>
+                <div class="w-8 h-8 rounded-lg bg-cyan-400 text-black flex items-center justify-center font-black">
+                  <i data-lucide="code" class="w-4 h-4"></i>
+                </div>
+              </div>
+            </div>
+
+            <!-- Quick Specs Grid -->
+            <div class="grid grid-cols-2 gap-3 mt-4">
+              <div class="p-3 rounded-xl bg-white/[0.03] border border-white/5">
+                <span class="text-[10px] font-mono text-slate-400 block">BASE LOCATION</span>
+                <span class="text-xs font-semibold text-white">Colombo / Remote</span>
+              </div>
+              <div class="p-3 rounded-xl bg-white/[0.03] border border-white/5">
+                <span class="text-[10px] font-mono text-slate-400 block">AVAILABILITY</span>
+                <span class="text-xs font-semibold text-emerald-400">Immediate</span>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+      <!-- About Bio & Mission -->
+      <div class="lg:col-span-7 space-y-6">
+        <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-cyan-500/10 border border-cyan-500/30 text-xs font-mono text-cyan-400">
+          <i data-lucide="user-check" class="w-3.5 h-3.5"></i>
+          <span>ABOUT THE ARCHITECT</span>
+        </div>
+
+        <h2 class="text-3xl sm:text-5xl font-extrabold font-display leading-tight">
+          Blending <span class="text-gradient-cyan">Modern Aesthetics</span> with Cutting-Edge 3D Engineering.
+        </h2>
+
+        <p class="text-slate-300 text-base sm:text-lg leading-relaxed font-light">
+          Hi! I'm Dilshan, a creative developer specializing in turning ambitious concepts into captivating, interactive reality. I bridge the intersection between high-performance web development and cinematic 3D digital art.
+        </p>
+
+        <p class="text-slate-400 text-sm sm:text-base leading-relaxed">
+          Whether designing custom WebGL shaders, responsive Tailwind CSS layouts, or full-stack software with real-time architectures, I strive for nothing less than absolute visual excellence and fluid user experiences.
+        </p>
+
+        <!-- Feature Points -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
+          
+          <div class="glass-panel p-4 rounded-2xl border border-white/10 hover:border-cyan-500/30 transition-colors">
+            <div class="w-8 h-8 rounded-lg bg-cyan-500/10 text-cyan-400 flex items-center justify-center mb-3">
+              <i data-lucide="layers" class="w-4 h-4"></i>
+            </div>
+            <h4 class="font-bold text-white text-sm mb-1">Spatial 3D Design</h4>
+            <p class="text-xs text-slate-400 leading-normal">Interactive Three.js objects, WebGL shaders, and smooth camera physics.</p>
+          </div>
+
+          <div class="glass-panel p-4 rounded-2xl border border-white/10 hover:border-purple-500/30 transition-colors">
+            <div class="w-8 h-8 rounded-lg bg-purple-500/10 text-purple-400 flex items-center justify-center mb-3">
+              <i data-lucide="zap" class="w-4 h-4"></i>
+            </div>
+            <h4 class="font-bold text-white text-sm mb-1">Ultra Performance</h4>
+            <p class="text-xs text-slate-400 leading-normal">Optimized assets, 60fps renders, and clean semantic codebases.</p>
+          </div>
+
+        </div>
+
+        <!-- Action Link -->
+        <div class="pt-4 flex flex-wrap items-center gap-5">
+          <a href="#projects" class="btn-action inline-flex items-center gap-2 text-cyan-400 font-semibold hover:text-cyan-300 group">
+            <span>Inspect Selected Creations</span>
+            <i data-lucide="arrow-right" class="w-4 h-4 group-hover:translate-x-1 transition-transform"></i>
+          </a>
+          <button id="resume-btn" class="btn-action px-4 py-2 rounded-xl glass-panel border border-white/10 hover:border-white/30 text-slate-300 hover:text-white text-xs font-mono flex items-center gap-2">
+            <i data-lucide="file-text" class="w-4 h-4 text-purple-400"></i>
+            <span>Download Resume (PDF)</span>
+          </button>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- FEATURED 3D PROJECTS SHOWCASE -->
+  <section id="projects" class="py-28 relative z-20 px-4 sm:px-8 max-w-7xl mx-auto">
+    
+    <!-- Section Header -->
+    <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
+      <div>
+        <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-purple-500/10 border border-purple-500/30 text-xs font-mono text-purple-400 mb-3">
+          <i data-lucide="briefcase" class="w-3.5 h-3.5"></i>
+          <span>FEATURED PORTFOLIO WORKS</span>
+        </div>
+        <h2 class="text-3xl sm:text-5xl font-extrabold font-display">
+          Crafted with <span class="text-gradient-purple">Vision & Precision</span>.
+        </h2>
+      </div>
+
+      <!-- Filter Controls -->
+      <div class="flex items-center gap-2 bg-white/5 p-1.5 rounded-2xl border border-white/10 backdrop-blur-lg">
+        <button class="filter-btn px-4 py-2 rounded-xl text-xs font-mono transition-all duration-300 bg-cyan-500/20 text-cyan-400 border border-cyan-500/50" data-filter="all">All Projects</button>
+        <button class="filter-btn px-4 py-2 rounded-xl text-xs font-mono transition-all duration-300 text-slate-400 border border-white/10 hover:text-white" data-filter="web3d">3D & Spatial</button>
+        <button class="filter-btn px-4 py-2 rounded-xl text-xs font-mono transition-all duration-300 text-slate-400 border border-white/10 hover:text-white" data-filter="fullstack">Fullstack SaaS</button>
+        <button class="filter-btn px-4 py-2 rounded-xl text-xs font-mono transition-all duration-300 text-slate-400 border border-white/10 hover:text-white" data-filter="ai">AI Systems</button>
+      </div>
+    </div>
+
+    <!-- Projects Grid -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      
+      <!-- Project 1: AI SaaS Analytics -->
+      <div class="project-card tilt-card" data-category="fullstack">
+        <div class="glass-panel glass-panel-hover rounded-3xl overflow-hidden border border-white/10 group h-full flex flex-col">
+          
+          <!-- Thumbnail Container -->
+          <div class="relative overflow-hidden aspect-[16/10] bg-slate-900 border-b border-white/10 cursor-pointer open-modal-btn" data-project-id="1">
+            <img src="assets/project1.jpg" alt="DataSphere AI Dashboard" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+            <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent"></div>
+            
+            <div class="absolute top-3 right-3 px-3 py-1 rounded-full bg-black/60 border border-white/20 backdrop-blur-md text-[11px] font-mono text-cyan-300">
+              SaaS Analytics
+            </div>
+
+            <div class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-black/40 backdrop-blur-[2px]">
+              <span class="px-4 py-2 rounded-xl glass-panel border border-cyan-400/50 text-xs font-mono text-cyan-300 shadow-xl flex items-center gap-2">
+                <i data-lucide="eye" class="w-4 h-4"></i> View Deep Specs
+              </span>
+            </div>
+          </div>
+
+          <!-- Body -->
+          <div class="p-6 flex-1 flex flex-col justify-between space-y-4">
+            <div class="space-y-2">
+              <h3 class="text-xl font-bold font-display text-white group-hover:text-cyan-400 transition-colors">
+                DataSphere 3D AI Platform
+              </h3>
+              <p class="text-xs sm:text-sm text-slate-400 line-clamp-3 leading-relaxed">
+                Next-generation analytics hub with real-time reactive charting, automated insights, and 3D data topological cluster visualizer.
+              </p>
+            </div>
+
+            <!-- Tech Tags -->
+            <div class="space-y-4">
+              <div class="flex flex-wrap gap-2">
+                <span class="text-[11px] font-mono px-2.5 py-1 rounded-md bg-white/5 text-cyan-300 border border-white/10">Next.js</span>
+                <span class="text-[11px] font-mono px-2.5 py-1 rounded-md bg-white/5 text-purple-300 border border-white/10">Tailwind CSS</span>
+                <span class="text-[11px] font-mono px-2.5 py-1 rounded-md bg-white/5 text-pink-300 border border-white/10">Three.js</span>
+                <span class="text-[11px] font-mono px-2.5 py-1 rounded-md bg-white/5 text-slate-300 border border-white/10">WebSockets</span>
+              </div>
+
+              <!-- Links -->
+              <div class="pt-2 border-t border-white/10 flex items-center justify-between">
+                <button class="open-modal-btn btn-action inline-flex items-center gap-1.5 text-xs font-bold text-cyan-400 hover:text-cyan-300" data-project-id="1">
+                  <i data-lucide="external-link" class="w-3.5 h-3.5"></i> Inspect Case Study
+                </button>
+                <a href="https://github.com" target="_blank" rel="noopener noreferrer" class="text-slate-400 hover:text-white transition-colors" title="Source Repository">
+                  <i data-lucide="github" class="w-4 h-4"></i>
+                </a>
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Project 2: Metaverse 3D E-Commerce -->
+      <div class="project-card tilt-card" data-category="web3d">
+        <div class="glass-panel glass-panel-hover rounded-3xl overflow-hidden border border-white/10 group h-full flex flex-col">
+          
+          <!-- Thumbnail Container -->
+          <div class="relative overflow-hidden aspect-[16/10] bg-slate-900 border-b border-white/10 cursor-pointer open-modal-btn" data-project-id="2">
+            <img src="assets/project2.jpg" alt="Aero-X 3D Metaverse Store" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+            <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent"></div>
+            
+            <div class="absolute top-3 right-3 px-3 py-1 rounded-full bg-black/60 border border-white/20 backdrop-blur-md text-[11px] font-mono text-purple-300">
+              Interactive 3D
+            </div>
+
+            <div class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-black/40 backdrop-blur-[2px]">
+              <span class="px-4 py-2 rounded-xl glass-panel border border-purple-400/50 text-xs font-mono text-purple-300 shadow-xl flex items-center gap-2">
+                <i data-lucide="eye" class="w-4 h-4"></i> View Deep Specs
+              </span>
+            </div>
+          </div>
+
+          <!-- Body -->
+          <div class="p-6 flex-1 flex flex-col justify-between space-y-4">
+            <div class="space-y-2">
+              <h3 class="text-xl font-bold font-display text-white group-hover:text-purple-400 transition-colors">
+                Aero-X 3D Cyber Commerce
+              </h3>
+              <p class="text-xs sm:text-sm text-slate-400 line-clamp-3 leading-relaxed">
+                Immersive 3D product customization engine allowing users to manipulate 360° holographic sneakers with realistic materials and lighting.
+              </p>
+            </div>
+
+            <!-- Tech Tags -->
+            <div class="space-y-4">
+              <div class="flex flex-wrap gap-2">
+                <span class="text-[11px] font-mono px-2.5 py-1 rounded-md bg-white/5 text-purple-300 border border-white/10">Three.js</span>
+                <span class="text-[11px] font-mono px-2.5 py-1 rounded-md bg-white/5 text-cyan-300 border border-white/10">GLTF Loader</span>
+                <span class="text-[11px] font-mono px-2.5 py-1 rounded-md bg-white/5 text-pink-300 border border-white/10">GSAP</span>
+                <span class="text-[11px] font-mono px-2.5 py-1 rounded-md bg-white/5 text-emerald-300 border border-white/10">WebAudio</span>
+              </div>
+
+              <!-- Links -->
+              <div class="pt-2 border-t border-white/10 flex items-center justify-between">
+                <button class="open-modal-btn btn-action inline-flex items-center gap-1.5 text-xs font-bold text-purple-400 hover:text-purple-300" data-project-id="2">
+                  <i data-lucide="external-link" class="w-3.5 h-3.5"></i> Inspect Case Study
+                </button>
+                <a href="https://github.com" target="_blank" rel="noopener noreferrer" class="text-slate-400 hover:text-white transition-colors" title="Source Repository">
+                  <i data-lucide="github" class="w-4 h-4"></i>
+                </a>
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Project 3: AI Neural System -->
+      <div class="project-card tilt-card" data-category="ai">
+        <div class="glass-panel glass-panel-hover rounded-3xl overflow-hidden border border-white/10 group h-full flex flex-col">
+          
+          <!-- Thumbnail Container -->
+          <div class="relative overflow-hidden aspect-[16/10] bg-slate-900 border-b border-white/10 cursor-pointer open-modal-btn" data-project-id="3">
+            <img src="assets/project3.jpg" alt="NeuraFlow AI Synapse Interface" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+            <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent"></div>
+            
+            <div class="absolute top-3 right-3 px-3 py-1 rounded-full bg-black/60 border border-white/20 backdrop-blur-md text-[11px] font-mono text-pink-300">
+              Neural Interface
+            </div>
+
+            <div class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-black/40 backdrop-blur-[2px]">
+              <span class="px-4 py-2 rounded-xl glass-panel border border-pink-400/50 text-xs font-mono text-pink-300 shadow-xl flex items-center gap-2">
+                <i data-lucide="eye" class="w-4 h-4"></i> View Deep Specs
+              </span>
+            </div>
+          </div>
+
+          <!-- Body -->
+          <div class="p-6 flex-1 flex flex-col justify-between space-y-4">
+            <div class="space-y-2">
+              <h3 class="text-xl font-bold font-display text-white group-hover:text-pink-400 transition-colors">
+                NeuraFlow Cognitive Graph
+              </h3>
+              <p class="text-xs sm:text-sm text-slate-400 line-clamp-3 leading-relaxed">
+                Biotech AI node explorer that maps neural synapse weights in dynamic 3D graph space, generating predictive reasoning visual paths.
+              </p>
+            </div>
+
+            <!-- Tech Tags -->
+            <div class="space-y-4">
+              <div class="flex flex-wrap gap-2">
+                <span class="text-[11px] font-mono px-2.5 py-1 rounded-md bg-white/5 text-pink-300 border border-white/10">WebGL 2</span>
+                <span class="text-[11px] font-mono px-2.5 py-1 rounded-md bg-white/5 text-cyan-300 border border-white/10">Python / FastAPI</span>
+                <span class="text-[11px] font-mono px-2.5 py-1 rounded-md bg-white/5 text-purple-300 border border-white/10">TypeScript</span>
+                <span class="text-[11px] font-mono px-2.5 py-1 rounded-md bg-white/5 text-amber-300 border border-white/10">TensorFlow.js</span>
+              </div>
+
+              <!-- Links -->
+              <div class="pt-2 border-t border-white/10 flex items-center justify-between">
+                <button class="open-modal-btn btn-action inline-flex items-center gap-1.5 text-xs font-bold text-pink-400 hover:text-pink-300" data-project-id="3">
+                  <i data-lucide="external-link" class="w-3.5 h-3.5"></i> Inspect Case Study
+                </button>
+                <a href="https://github.com" target="_blank" rel="noopener noreferrer" class="text-slate-400 hover:text-white transition-colors" title="Source Repository">
+                  <i data-lucide="github" class="w-4 h-4"></i>
+                </a>
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+
+  </section>
+
+  <!-- TECH MATRIX & SKILLS -->
+  <section id="skills" class="py-28 relative z-20 px-4 sm:px-8 max-w-7xl mx-auto">
+    <div class="text-center max-w-3xl mx-auto mb-16 space-y-4">
+      <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-cyan-500/10 border border-cyan-500/30 text-xs font-mono text-cyan-400">
+        <i data-lucide="cpu" class="w-3.5 h-3.5"></i>
+        <span>SKILL ARSENAL</span>
+      </div>
+      <h2 class="text-3xl sm:text-5xl font-extrabold font-display">
+        The <span class="text-gradient-neon">Tech Matrix</span> & Capabilities.
+      </h2>
+      <p class="text-slate-400 text-sm sm:text-base">
+        A high-caliber toolset optimized for building blazing-fast, visually breathtaking digital products.
+      </p>
+    </div>
+
+    <!-- Skills 3 Column Grid with Animated Progress Bars -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+      
+      <!-- Category 1: Spatial & 3D -->
+      <div class="glass-panel rounded-3xl p-8 border border-white/10 space-y-6 hover:border-cyan-500/40 transition-colors">
+        <div class="w-12 h-12 rounded-2xl bg-cyan-500/10 border border-cyan-500/30 flex items-center justify-center text-cyan-400">
+          <i data-lucide="box" class="w-6 h-6"></i>
+        </div>
+        <h3 class="text-xl font-bold font-display text-white">3D & Spatial Computing</h3>
+        <p class="text-xs sm:text-sm text-slate-400 leading-relaxed">
+          Crafting web-first interactive 3D simulations, physics, particles, and custom GLSL vertex/fragment shaders.
+        </p>
+
+        <ul class="space-y-4 font-mono text-xs text-slate-300">
+          <li class="p-3 rounded-xl bg-white/[0.02] border border-white/5">
+            <div class="flex items-center justify-between">
+              <span>Three.js / WebGL</span>
+              <span class="text-cyan-400 font-bold">95%</span>
+            </div>
+            <div class="skill-bar-track">
+              <div class="skill-bar-fill bg-gradient-to-r from-cyan-400 to-sky-500" data-percent="95%"></div>
+            </div>
+          </li>
+
+          <li class="p-3 rounded-xl bg-white/[0.02] border border-white/5">
+            <div class="flex items-center justify-between">
+              <span>GLSL Shaders</span>
+              <span class="text-cyan-400 font-bold">88%</span>
+            </div>
+            <div class="skill-bar-track">
+              <div class="skill-bar-fill bg-gradient-to-r from-cyan-400 to-sky-500" data-percent="88%"></div>
+            </div>
+          </li>
+
+          <li class="p-3 rounded-xl bg-white/[0.02] border border-white/5">
+            <div class="flex items-center justify-between">
+              <span>Blender 3D Modeling</span>
+              <span class="text-cyan-400 font-bold">85%</span>
+            </div>
+            <div class="skill-bar-track">
+              <div class="skill-bar-fill bg-gradient-to-r from-cyan-400 to-sky-500" data-percent="85%"></div>
+            </div>
+          </li>
+
+          <li class="p-3 rounded-xl bg-white/[0.02] border border-white/5">
+            <div class="flex items-center justify-between">
+              <span>GSAP Spatial Physics</span>
+              <span class="text-cyan-400 font-bold">92%</span>
+            </div>
+            <div class="skill-bar-track">
+              <div class="skill-bar-fill bg-gradient-to-r from-cyan-400 to-sky-500" data-percent="92%"></div>
+            </div>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Category 2: Modern Frontend -->
+      <div class="glass-panel rounded-3xl p-8 border border-white/10 space-y-6 hover:border-purple-500/40 transition-colors">
+        <div class="w-12 h-12 rounded-2xl bg-purple-500/10 border border-purple-500/30 flex items-center justify-center text-purple-400">
+          <i data-lucide="monitor" class="w-6 h-6"></i>
+        </div>
+        <h3 class="text-xl font-bold font-display text-white">Next-Gen Frontend</h3>
+        <p class="text-xs sm:text-sm text-slate-400 leading-relaxed">
+          Architecting reactive, accessible, and hyper-responsive user interfaces with pixel perfection.
+        </p>
+
+        <ul class="space-y-4 font-mono text-xs text-slate-300">
+          <li class="p-3 rounded-xl bg-white/[0.02] border border-white/5">
+            <div class="flex items-center justify-between">
+              <span>HTML5 & Modern CSS</span>
+              <span class="text-purple-400 font-bold">98%</span>
+            </div>
+            <div class="skill-bar-track">
+              <div class="skill-bar-fill bg-gradient-to-r from-purple-400 to-pink-500" data-percent="98%"></div>
+            </div>
+          </li>
+
+          <li class="p-3 rounded-xl bg-white/[0.02] border border-white/5">
+            <div class="flex items-center justify-between">
+              <span>Tailwind CSS</span>
+              <span class="text-purple-400 font-bold">96%</span>
+            </div>
+            <div class="skill-bar-track">
+              <div class="skill-bar-fill bg-gradient-to-r from-purple-400 to-pink-500" data-percent="96%"></div>
+            </div>
+          </li>
+
+          <li class="p-3 rounded-xl bg-white/[0.02] border border-white/5">
+            <div class="flex items-center justify-between">
+              <span>JavaScript (ESNext) / TS</span>
+              <span class="text-purple-400 font-bold">94%</span>
+            </div>
+            <div class="skill-bar-track">
+              <div class="skill-bar-fill bg-gradient-to-r from-purple-400 to-pink-500" data-percent="94%"></div>
+            </div>
+          </li>
+
+          <li class="p-3 rounded-xl bg-white/[0.02] border border-white/5">
+            <div class="flex items-center justify-between">
+              <span>React / Next.js</span>
+              <span class="text-purple-400 font-bold">90%</span>
+            </div>
+            <div class="skill-bar-track">
+              <div class="skill-bar-fill bg-gradient-to-r from-purple-400 to-pink-500" data-percent="90%"></div>
+            </div>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Category 3: Backend & Architecture -->
+      <div class="glass-panel rounded-3xl p-8 border border-white/10 space-y-6 hover:border-pink-500/40 transition-colors">
+        <div class="w-12 h-12 rounded-2xl bg-pink-500/10 border border-pink-500/30 flex items-center justify-center text-pink-400">
+          <i data-lucide="server" class="w-6 h-6"></i>
+        </div>
+        <h3 class="text-xl font-bold font-display text-white">Cloud & Fullstack Core</h3>
+        <p class="text-xs sm:text-sm text-slate-400 leading-relaxed">
+          Robust APIs, real-time message streams, security infrastructure, and seamless deployment pipelines.
+        </p>
+
+        <ul class="space-y-4 font-mono text-xs text-slate-300">
+          <li class="p-3 rounded-xl bg-white/[0.02] border border-white/5">
+            <div class="flex items-center justify-between">
+              <span>Node.js / Express</span>
+              <span class="text-pink-400 font-bold">90%</span>
+            </div>
+            <div class="skill-bar-track">
+              <div class="skill-bar-fill bg-gradient-to-r from-pink-400 to-rose-500" data-percent="90%"></div>
+            </div>
+          </li>
+
+          <li class="p-3 rounded-xl bg-white/[0.02] border border-white/5">
+            <div class="flex items-center justify-between">
+              <span>PostgreSQL & Supabase</span>
+              <span class="text-pink-400 font-bold">87%</span>
+            </div>
+            <div class="skill-bar-track">
+              <div class="skill-bar-fill bg-gradient-to-r from-pink-400 to-rose-500" data-percent="87%"></div>
+            </div>
+          </li>
+
+          <li class="p-3 rounded-xl bg-white/[0.02] border border-white/5">
+            <div class="flex items-center justify-between">
+              <span>REST & GraphQL APIs</span>
+              <span class="text-pink-400 font-bold">92%</span>
+            </div>
+            <div class="skill-bar-track">
+              <div class="skill-bar-fill bg-gradient-to-r from-pink-400 to-rose-500" data-percent="92%"></div>
+            </div>
+          </li>
+
+          <li class="p-3 rounded-xl bg-white/[0.02] border border-white/5">
+            <div class="flex items-center justify-between">
+              <span>Docker & Cloud Deploy</span>
+              <span class="text-pink-400 font-bold">84%</span>
+            </div>
+            <div class="skill-bar-track">
+              <div class="skill-bar-fill bg-gradient-to-r from-pink-400 to-rose-500" data-percent="84%"></div>
+            </div>
+          </li>
+        </ul>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- WORK EXPERIENCE / JOURNEY -->
+  <section id="experience" class="py-28 relative z-20 px-4 sm:px-8 max-w-5xl mx-auto">
+    <div class="text-center mb-16 space-y-3">
+      <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-pink-500/10 border border-pink-500/30 text-xs font-mono text-pink-400">
+        <i data-lucide="git-commit" class="w-3.5 h-3.5"></i>
+        <span>CHRONOLOGICAL MILESTONES</span>
+      </div>
+      <h2 class="text-3xl sm:text-5xl font-extrabold font-display">
+        The Engineering <span class="text-gradient-purple">Journey</span>.
+      </h2>
+    </div>
+
+    <!-- Timeline Wrapper -->
+    <div class="relative border-l border-white/10 ml-4 sm:ml-8 space-y-12">
+      
+      <!-- Milestone 1 -->
+      <div class="relative pl-8 sm:pl-12 group">
+        <div class="absolute -left-[9px] top-1.5 w-4 h-4 rounded-full bg-cyan-400 shadow-lg shadow-cyan-500/50 group-hover:scale-125 transition-transform duration-300"></div>
+
+        <div class="glass-panel p-6 rounded-2xl border border-white/10 hover:border-cyan-500/30 transition-all">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-1 mb-2">
+            <h3 class="text-lg font-bold text-white">Lead 3D & Creative Frontend Engineer</h3>
+            <span class="text-xs font-mono px-2.5 py-1 rounded bg-cyan-500/20 text-cyan-300 self-start sm:self-auto">2024 — Present</span>
+          </div>
+          <div class="text-xs font-mono text-slate-400 mb-3">CyberSpatial Studio • Remote</div>
+          <p class="text-xs sm:text-sm text-slate-300 leading-relaxed">
+            Leading the architecture of WebGL interactive microsites, custom 3D configurators, and micro-frontend systems for international clients. Reduced WebGL frame latency by 42%.
+          </p>
+        </div>
+      </div>
+
+      <!-- Milestone 2 -->
+      <div class="relative pl-8 sm:pl-12 group">
+        <div class="absolute -left-[9px] top-1.5 w-4 h-4 rounded-full bg-purple-400 shadow-lg shadow-purple-500/50 group-hover:scale-125 transition-transform duration-300"></div>
+
+        <div class="glass-panel p-6 rounded-2xl border border-white/10 hover:border-purple-500/30 transition-all">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-1 mb-2">
+            <h3 class="text-lg font-bold text-white">Senior Fullstack Web Developer</h3>
+            <span class="text-xs font-mono px-2.5 py-1 rounded bg-purple-500/20 text-purple-300 self-start sm:self-auto">2022 — 2024</span>
+          </div>
+          <div class="text-xs font-mono text-slate-400 mb-3">NextGen Labs • Tech Solutions</div>
+          <p class="text-xs sm:text-sm text-slate-300 leading-relaxed">
+            Architected enterprise SaaS platforms utilizing React, Tailwind CSS, Node.js, and Redis. Spearheaded UI component design system adopted by 12 developer squads.
+          </p>
+        </div>
+      </div>
+
+      <!-- Milestone 3 -->
+      <div class="relative pl-8 sm:pl-12 group">
+        <div class="absolute -left-[9px] top-1.5 w-4 h-4 rounded-full bg-pink-400 shadow-lg shadow-pink-500/50 group-hover:scale-125 transition-transform duration-300"></div>
+
+        <div class="glass-panel p-6 rounded-2xl border border-white/10 hover:border-pink-500/30 transition-all">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-1 mb-2">
+            <h3 class="text-lg font-bold text-white">Creative UI/UX & Web Developer</h3>
+            <span class="text-xs font-mono px-2.5 py-1 rounded bg-pink-500/20 text-pink-300 self-start sm:self-auto">2020 — 2022</span>
+          </div>
+          <div class="text-xs font-mono text-slate-400 mb-3">PixelWave Interactive</div>
+          <p class="text-xs sm:text-sm text-slate-300 leading-relaxed">
+            Crafted responsive portfolio websites, custom JavaScript visual effects, and fluid CSS animations for startups and lifestyle brands.
+          </p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- TRANSMISSION / CONTACT PORTAL -->
+  <section id="contact" class="py-28 relative z-20 px-4 sm:px-8 max-w-7xl mx-auto">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+      
+      <!-- Contact Info -->
+      <div class="lg:col-span-5 space-y-6">
+        <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-cyan-500/10 border border-cyan-500/30 text-xs font-mono text-cyan-400">
+          <i data-lucide="radio" class="w-3.5 h-3.5 animate-pulse"></i>
+          <span>DIRECT TRANSMISSION</span>
+        </div>
+
+        <h2 class="text-3xl sm:text-5xl font-extrabold font-display leading-tight">
+          Ready to Bring Your <span class="text-gradient-cyan">Vision</span> to Life?
+        </h2>
+
+        <p class="text-slate-300 text-sm sm:text-base leading-relaxed font-light">
+          Have an exciting project, a 3D spatial web concept, or need a dedicated fullstack engineer? Let's connect and build something memorable together.
+        </p>
+
+        <!-- Contact Channels -->
+        <div class="space-y-4 pt-4">
+          
+          <!-- Email Box with Copy Button -->
+          <div class="flex items-center justify-between p-3.5 rounded-2xl glass-panel border border-white/10 hover:border-cyan-500/40 transition-colors">
+            <div class="flex items-center gap-4">
+              <div class="w-10 h-10 rounded-xl bg-cyan-500/10 text-cyan-400 flex items-center justify-center">
+                <i data-lucide="mail" class="w-5 h-5"></i>
+              </div>
+              <div>
+                <span class="text-[11px] font-mono text-slate-400 block">TRANSMIT VIA EMAIL</span>
+                <span class="text-sm font-semibold text-white">dilshan.dev.space@gmail.com</span>
+              </div>
+            </div>
+            <button id="copy-email-btn" class="p-2.5 rounded-xl bg-white/5 hover:bg-cyan-500/20 text-slate-300 hover:text-cyan-400 transition-colors" title="Copy to clipboard">
+              <i data-lucide="copy" class="w-4 h-4"></i>
+            </button>
+          </div>
+
+          <div class="flex items-center gap-4 p-3.5 rounded-2xl glass-panel border border-white/10 hover:border-purple-500/40 transition-colors">
+            <div class="w-10 h-10 rounded-xl bg-purple-500/10 text-purple-400 flex items-center justify-center">
+              <i data-lucide="map-pin" class="w-5 h-5"></i>
+            </div>
+            <div>
+              <span class="text-[11px] font-mono text-slate-400 block">BASE COORDINATES</span>
+              <span class="text-sm font-semibold text-white">Colombo, Sri Lanka • GMT +5:30</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Social Handles -->
+        <div class="pt-2 flex items-center gap-3">
+          <!-- GitHub -->
+          <a href="https://github.com" target="_blank" rel="noopener noreferrer" class="w-11 h-11 rounded-xl glass-panel border border-white/10 hover:border-cyan-400 text-slate-300 hover:text-cyan-400 flex items-center justify-center transition-all duration-200 hover:scale-110 shadow-lg shadow-cyan-500/10 group" title="GitHub Profile">
+            <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24" aria-hidden="true">
+              <path fill-rule="evenodd" clip-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"></path>
+            </svg>
+          </a>
+          <!-- LinkedIn -->
+          <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" class="w-11 h-11 rounded-xl glass-panel border border-white/10 hover:border-cyan-400 text-slate-300 hover:text-cyan-400 flex items-center justify-center transition-all duration-200 hover:scale-110 shadow-lg shadow-cyan-500/10 group" title="LinkedIn Profile">
+            <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.46 10.9h2.79v8.37H6.46v-8.37M7.86 6.7a1.63 1.63 0 1 0 1.63 1.63A1.63 1.63 0 0 0 7.86 6.7z"></path>
+            </svg>
+          </a>
+          <!-- X / Twitter -->
+          <a href="https://x.com" target="_blank" rel="noopener noreferrer" class="w-11 h-11 rounded-xl glass-panel border border-white/10 hover:border-cyan-400 text-slate-300 hover:text-cyan-400 flex items-center justify-center transition-all duration-200 hover:scale-110 shadow-lg shadow-cyan-500/10 group" title="X (Twitter)">
+            <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"></path>
+            </svg>
+          </a>
+          <!-- Discord -->
+          <a href="https://discord.com" target="_blank" rel="noopener noreferrer" class="w-11 h-11 rounded-xl glass-panel border border-white/10 hover:border-cyan-400 text-slate-300 hover:text-cyan-400 flex items-center justify-center transition-all duration-200 hover:scale-110 shadow-lg shadow-cyan-500/10 group" title="Discord Community">
+            <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994.021-.041.001-.09-.041-.106a13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.929 1.793 8.18 1.793 12.061 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.894.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.028zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"></path>
+            </svg>
+          </a>
+        </div>
+      </div>
+
+      <!-- Transmission Form -->
+      <div class="lg:col-span-7">
+        <div class="glass-panel rounded-3xl p-6 sm:p-10 border border-white/15 shadow-2xl relative">
+          
+          <div class="flex items-center justify-between border-b border-white/10 pb-4 mb-6">
+            <div class="flex items-center gap-2">
+              <span class="w-3 h-3 rounded-full bg-cyan-400"></span>
+              <span class="w-3 h-3 rounded-full bg-purple-400"></span>
+              <span class="w-3 h-3 rounded-full bg-pink-400"></span>
+            </div>
+            <span class="font-mono text-xs text-slate-400">PORTAL_PROTOCOL_V2.6</span>
+          </div>
+
+          <form id="contact-form" class="space-y-5">
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+              
+              <div class="space-y-2">
+                <label class="block text-xs font-mono text-slate-300 uppercase tracking-wider">Your Identity / Name</label>
+                <input type="text" required placeholder="e.g. Alex Sterling" class="w-full px-4 py-3.5 rounded-xl bg-white/[0.04] border border-white/10 focus:border-cyan-400 focus:bg-white/[0.08] text-white text-sm outline-none transition duration-200 placeholder:text-slate-600">
+              </div>
+
+              <div class="space-y-2">
+                <label class="block text-xs font-mono text-slate-300 uppercase tracking-wider">Signal Address / Email</label>
+                <input type="email" required placeholder="alex@enterprise.io" class="w-full px-4 py-3.5 rounded-xl bg-white/[0.04] border border-white/10 focus:border-cyan-400 focus:bg-white/[0.08] text-white text-sm outline-none transition duration-200 placeholder:text-slate-600">
+              </div>
+
+            </div>
+
+            <div class="space-y-2">
+              <label class="block text-xs font-mono text-slate-300 uppercase tracking-wider">Project Objective</label>
+              <select class="w-full px-4 py-3.5 rounded-xl bg-[#0f1422] border border-white/10 focus:border-cyan-400 text-white text-sm outline-none transition duration-200">
+                <option value="3d-web">3D Interactive Web Application</option>
+                <option value="fullstack">Fullstack SaaS Architecture</option>
+                <option value="ui-redesign">High-End UI/UX Revamp</option>
+                <option value="contract">Freelance Contract / Consulting</option>
+              </select>
+            </div>
+
+            <div class="space-y-2">
+              <label class="block text-xs font-mono text-slate-300 uppercase tracking-wider">Signal Payload / Message</label>
+              <textarea rows="4" required placeholder="Describe your timeline, vision, and project goals..." class="w-full px-4 py-3.5 rounded-xl bg-white/[0.04] border border-white/10 focus:border-cyan-400 focus:bg-white/[0.08] text-white text-sm outline-none transition duration-200 placeholder:text-slate-600 resize-none"></textarea>
+            </div>
+
+            <button type="submit" class="btn-action w-full py-4 rounded-xl font-bold text-sm bg-gradient-to-r from-cyan-400 via-sky-400 to-purple-500 text-black shadow-xl shadow-cyan-500/30 hover:opacity-95 transition-all duration-300 flex items-center justify-center gap-2">
+              <i data-lucide="send" class="w-4 h-4"></i>
+              <span>Transmit Message Signal</span>
+            </button>
+          </form>
+
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- INTERACTIVE PROJECT DETAILS MODAL -->
+  <div id="project-modal" class="hidden-modal fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 bg-black/80 backdrop-blur-md">
+    <div class="max-w-3xl w-full max-h-[90vh] overflow-y-auto glass-panel rounded-3xl border border-white/20 shadow-2xl p-6 sm:p-8 relative space-y-6">
+      
+      <!-- Close button -->
+      <button id="modal-close-btn" class="absolute top-5 right-5 p-2 rounded-xl bg-white/10 hover:bg-white/20 text-slate-300 hover:text-white transition-colors" title="Close Modal (Esc)">
+        <i data-lucide="x" class="w-5 h-5"></i>
+      </button>
+
+      <!-- Modal Image -->
+      <div class="relative rounded-2xl overflow-hidden aspect-[16/9] border border-white/10 bg-slate-900">
+        <img id="modal-img" src="" alt="Project Preview" class="w-full h-full object-cover">
+        <div class="absolute bottom-3 left-3 px-3 py-1 rounded-full bg-black/70 backdrop-blur-md border border-white/20 text-xs font-mono text-cyan-300" id="modal-category">
+          Category
+        </div>
+      </div>
+
+      <!-- Modal Info -->
+      <div class="space-y-4">
+        <h3 id="modal-title" class="text-2xl sm:text-3xl font-extrabold font-display text-white">Project Title</h3>
+        
+        <p id="modal-desc" class="text-slate-300 text-sm sm:text-base leading-relaxed"></p>
+
+        <!-- Simulated Metrics -->
+        <div class="grid grid-cols-3 gap-3 pt-2">
+          <div class="p-3 rounded-xl bg-white/[0.03] border border-white/10 text-center">
+            <span class="text-[10px] font-mono text-slate-400 block">LATENCY</span>
+            <span class="text-sm font-bold text-cyan-400" id="modal-latency">18ms</span>
+          </div>
+          <div class="p-3 rounded-xl bg-white/[0.03] border border-white/10 text-center">
+            <span class="text-[10px] font-mono text-slate-400 block">AVAILABILITY</span>
+            <span class="text-sm font-bold text-purple-400" id="modal-uptime">99.99%</span>
+          </div>
+          <div class="p-3 rounded-xl bg-white/[0.03] border border-white/10 text-center">
+            <span class="text-[10px] font-mono text-slate-400 block">FRAME RATE</span>
+            <span class="text-sm font-bold text-emerald-400" id="modal-fps">60 FPS</span>
+          </div>
+        </div>
+
+        <!-- Key Features List -->
+        <div class="space-y-2 pt-2">
+          <h4 class="text-xs font-mono uppercase tracking-wider text-slate-400">Engineering Highlights</h4>
+          <ul id="modal-features" class="space-y-2"></ul>
+        </div>
+
+        <!-- Tech Stack Pills -->
+        <div class="space-y-2 pt-2">
+          <h4 class="text-xs font-mono uppercase tracking-wider text-slate-400">Technologies Employed</h4>
+          <div id="modal-tech" class="flex flex-wrap gap-2"></div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="pt-4 border-t border-white/10 flex flex-wrap items-center justify-between gap-4">
+          <a href="#contact" onclick="closeProjectModal()" class="btn-action px-6 py-3 rounded-xl bg-cyan-400 hover:bg-cyan-300 text-black font-bold text-xs font-mono flex items-center gap-2 shadow-lg shadow-cyan-500/20">
+            <i data-lucide="send" class="w-4 h-4"></i>
+            <span>Request Custom Architecture</span>
+          </a>
+          <button onclick="closeProjectModal()" class="px-5 py-3 rounded-xl glass-panel border border-white/10 text-slate-400 hover:text-white text-xs font-mono">
+            Close Viewer
+          </button>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="pt-20 pb-12 border-t border-white/10 relative z-20 px-4 sm:px-8 bg-black/60 backdrop-blur-2xl">
+    <div class="max-w-7xl mx-auto space-y-16">
+      
+      <!-- Top Banner Strip -->
+      <div class="glass-panel rounded-3xl p-6 sm:p-8 border border-white/10 flex flex-col md:flex-row items-center justify-between gap-6">
+        <div class="flex items-center gap-4">
+          <div class="w-12 h-12 rounded-2xl bg-gradient-to-tr from-cyan-500 to-purple-600 flex items-center justify-center font-display font-black text-2xl text-black shadow-lg shadow-cyan-500/30">
+            D
+          </div>
+          <div>
+            <h3 class="text-xl sm:text-2xl font-bold font-display text-white flex items-center gap-2">
+              DILSHAN <span class="w-2.5 h-2.5 rounded-full bg-cyan-400 animate-ping"></span>
+            </h3>
+            <p class="text-xs font-mono text-cyan-300">PIONEERING SPATIAL COMPUTING & 3D WEB ENGINEERING</p>
+          </div>
+        </div>
+
+        <div class="flex flex-wrap items-center gap-4">
+          <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-xs font-mono text-emerald-400">
+            <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+            <span>AVAILABLE FOR GLOBAL CONTRACTS</span>
+          </div>
+
+          <a href="#contact" class="btn-action px-5 py-2.5 rounded-xl font-bold text-xs font-mono bg-cyan-400 hover:bg-cyan-300 text-black shadow-lg shadow-cyan-500/20 flex items-center gap-2 transition-all">
+            <i data-lucide="send" class="w-3.5 h-3.5"></i>
+            <span>TRANSMIT SIGNAL</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- 4-Column Grid -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-10">
+        
+        <!-- Col 1: Bio & Social Handles (4 cols) -->
+        <div class="lg:col-span-4 space-y-5">
+          <h4 class="font-display font-bold text-white text-base">Architect Statement</h4>
+          <p class="text-xs sm:text-sm text-slate-400 leading-relaxed max-w-sm">
+            Dedicated to creating ultra-performant 3D spatial web experiences, responsive design systems, and robust fullstack architectures that elevate brands into the next digital frontier.
+          </p>
+
+          <!-- Social Icons -->
+          <div class="flex items-center gap-2.5 pt-2">
+            <!-- GitHub -->
+            <a href="https://github.com" target="_blank" rel="noopener noreferrer" class="w-10 h-10 rounded-xl glass-panel border border-white/10 hover:border-cyan-400 text-slate-300 hover:text-cyan-400 flex items-center justify-center transition-all duration-200 hover:scale-110 shadow-lg shadow-cyan-500/10 group" title="GitHub">
+              <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24" aria-hidden="true">
+                <path fill-rule="evenodd" clip-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"></path>
+              </svg>
+            </a>
+            <!-- LinkedIn -->
+            <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" class="w-10 h-10 rounded-xl glass-panel border border-white/10 hover:border-cyan-400 text-slate-300 hover:text-cyan-400 flex items-center justify-center transition-all duration-200 hover:scale-110 shadow-lg shadow-cyan-500/10 group" title="LinkedIn">
+              <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.46 10.9h2.79v8.37H6.46v-8.37M7.86 6.7a1.63 1.63 0 1 0 1.63 1.63A1.63 1.63 0 0 0 7.86 6.7z"></path>
+              </svg>
+            </a>
+            <!-- X / Twitter -->
+            <a href="https://x.com" target="_blank" rel="noopener noreferrer" class="w-10 h-10 rounded-xl glass-panel border border-white/10 hover:border-cyan-400 text-slate-300 hover:text-cyan-400 flex items-center justify-center transition-all duration-200 hover:scale-110 shadow-lg shadow-cyan-500/10 group" title="X (Twitter)">
+              <svg class="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"></path>
+              </svg>
+            </a>
+            <!-- Discord -->
+            <a href="https://discord.com" target="_blank" rel="noopener noreferrer" class="w-10 h-10 rounded-xl glass-panel border border-white/10 hover:border-cyan-400 text-slate-300 hover:text-cyan-400 flex items-center justify-center transition-all duration-200 hover:scale-110 shadow-lg shadow-cyan-500/10 group" title="Discord">
+              <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994.021-.041.001-.09-.041-.106a13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.929 1.793 8.18 1.793 12.061 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.894.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.028zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"></path>
+              </svg>
+            </a>
+          </div>
+        </div>
+
+        <!-- Col 2: Navigation Links (2 cols) -->
+        <div class="lg:col-span-2 space-y-4">
+          <h4 class="font-mono text-xs uppercase tracking-wider text-cyan-400 font-bold">Index Directory</h4>
+          <ul class="space-y-2.5 text-xs sm:text-sm text-slate-300 font-medium">
+            <li><a href="#hero" class="hover:text-cyan-400 transition-colors">01 // Core Studio</a></li>
+            <li><a href="#about" class="hover:text-cyan-400 transition-colors">02 // Architect Bio</a></li>
+            <li><a href="#projects" class="hover:text-cyan-400 transition-colors">03 // 3D Showcases</a></li>
+            <li><a href="#skills" class="hover:text-cyan-400 transition-colors">04 // Tech Matrix</a></li>
+            <li><a href="#experience" class="hover:text-cyan-400 transition-colors">05 // Work Journey</a></li>
+            <li><a href="#contact" class="hover:text-cyan-400 transition-colors">06 // Transmission</a></li>
+          </ul>
+        </div>
+
+        <!-- Col 3: Capabilities (3 cols) -->
+        <div class="lg:col-span-3 space-y-4">
+          <h4 class="font-mono text-xs uppercase tracking-wider text-purple-400 font-bold">Capabilities</h4>
+          <ul class="space-y-2.5 text-xs sm:text-sm text-slate-300 font-medium">
+            <li class="flex items-center gap-2">
+              <span class="w-1.5 h-1.5 rounded-full bg-cyan-400"></span>
+              <span>Interactive 3D WebGL (Three.js)</span>
+            </li>
+            <li class="flex items-center gap-2">
+              <span class="w-1.5 h-1.5 rounded-full bg-purple-400"></span>
+              <span>Spatial Interface Design</span>
+            </li>
+            <li class="flex items-center gap-2">
+              <span class="w-1.5 h-1.5 rounded-full bg-pink-400"></span>
+              <span>Next.js & Tailwind CSS Apps</span>
+            </li>
+            <li class="flex items-center gap-2">
+              <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
+              <span>Real-Time Cloud Architectures</span>
+            </li>
+            <li class="flex items-center gap-2">
+              <span class="w-1.5 h-1.5 rounded-full bg-sky-400"></span>
+              <span>Custom GLSL Shader Engineering</span>
+            </li>
+          </ul>
+        </div>
+
+        <!-- Col 4: Live Telemetry & Local Time (3 cols) -->
+        <div class="lg:col-span-3 space-y-4">
+          <h4 class="font-mono text-xs uppercase tracking-wider text-slate-400 font-bold">Node Telemetry</h4>
+          
+          <div class="glass-panel p-4 rounded-2xl border border-white/10 space-y-3 font-mono text-xs">
+            <div>
+              <span class="text-[10px] text-slate-400 block uppercase">STATION LOCAL TIME</span>
+              <span id="footer-live-time" class="text-xs font-bold text-cyan-300">Synchronizing...</span>
+            </div>
+
+            <div class="border-t border-white/5 pt-2 flex items-center justify-between">
+              <span class="text-[10px] text-slate-400 uppercase">SYS HEALTH</span>
+              <span class="text-[11px] text-emerald-400 font-semibold">100% NOMINAL</span>
+            </div>
+
+            <div class="border-t border-white/5 pt-2 flex items-center justify-between">
+              <span class="text-[10px] text-slate-400 uppercase">FRAME RENDERING</span>
+              <span class="text-[11px] text-purple-400 font-semibold">60 FPS WEBGL 2</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Bottom Sub-Footer -->
+      <div class="pt-8 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs font-mono text-slate-400">
+        <div>
+          © 2026 Dilshan. All Rights Reserved. Architected with Visual Excellence.
+        </div>
+
+        <div class="flex items-center gap-3">
+          <span>Engineered with HTML5, Tailwind CSS, & Three.js</span>
+          <a href="#hero" class="btn-action p-2.5 rounded-xl glass-panel border border-white/10 hover:border-cyan-400 text-cyan-400 transition-all hover:scale-110" title="Return to Top">
+            <i data-lucide="arrow-up" class="w-4 h-4"></i>
+          </a>
+        </div>
+      </div>
+
+    </div>
+  </footer>
+
+  <!-- NOTIFICATION TOAST POPUP -->
+  <div id="toast" class="fixed bottom-6 right-6 z-50 transform translate-y-24 opacity-0 pointer-events-none transition-all duration-500 max-w-sm glass-panel p-4 rounded-2xl border border-cyan-400/40 shadow-2xl flex items-center gap-3 backdrop-blur-2xl">
+    <div class="w-9 h-9 rounded-xl bg-cyan-400/20 text-cyan-300 flex items-center justify-center flex-shrink-0">
+      <i data-lucide="check-circle" class="w-5 h-5"></i>
+    </div>
+    <div class="text-xs font-medium text-slate-200" id="toast-msg">Notification</div>
+  </div>
+
+  <!-- Main JavaScript Files -->
+  <script src="js/3d-scene.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>
