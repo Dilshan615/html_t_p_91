@@ -3,18 +3,18 @@
 <div align="center">
 
 [![HTML5](https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white)](https://developer.mozilla.org/en-US/docs/Web/HTML)
-[![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)](https://tailwindcss.com/)
-[![Three.js](https://img.shields.io/badge/Three.js-000000?style=for-the-badge&logo=three.js&logoColor=white)](https://threejs.org/)
+[![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-06B6D4?style=for-the-badge&logo=tailwindcss&logoColor=white)](https://tailwindcss.com/)
+[![Three.js](https://img.shields.io/badge/Three.js-000000?style=for-the-badge&logo=threedotjs&logoColor=white)](https://threejs.org/)
 [![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black)](https://developer.mozilla.org/en-US/docs/Web/JavaScript)
 [![WebGL](https://img.shields.io/badge/WebGL_2.0-990000?style=for-the-badge&logo=webgl&logoColor=white)](https://www.khronos.org/webgl/)
-[![Status](https://img.shields.io/badge/Status-Production_Ready-00f0ff?style=for-the-badge)](#)
-[![License: MIT](https://img.shields.io/badge/License-MIT-purple?style=for-the-badge)](LICENSE)
+[![Status](https://img.shields.io/badge/Status-Active_v0.1-00f0ff?style=for-the-badge&logo=git&logoColor=black)](#)
+[![License: MIT](https://img.shields.io/badge/License-MIT-a855f7?style=for-the-badge&logo=open-source-initiative&logoColor=white)](LICENSE)
 
 <br/>
 
 **A next-generation personal portfolio website blending cinematic WebGL 3D spatial computing, interactive cyber aesthetics, and glassmorphic UI engineering.**
 
-[Explore Live Demo](#quick-start) • [Visual Showcase](#-visual-showcase) • [Core Features](#-features--architecture) • [Getting Started](#-quick-start)
+[🚀 Explore Live Demo](#-quick-start) • [📸 Visual Showcase](#-visual-showcase) • [🛠️ Core Features](#-features--architecture) • [⚡ Getting Started](#-quick-start)
 
 </div>
 
@@ -30,15 +30,15 @@
 
 ## 📑 Table of Contents
 
-- [Overview](#-overview)
-- [Visual Showcase](#-visual-showcase)
-- [Features & Architecture](#-features--architecture)
-- [Tech Stack](#-tech-stack)
-- [Project Structure](#-project-structure)
-- [Quick Start](#-quick-start)
-- [Customization Guide](#-customization-guide)
-- [Author & Contact](#-author--contact)
-- [License](#-license)
+- [🚀 Overview](#-overview)
+- [📸 Visual Showcase](#-visual-showcase)
+- [🛠️ Features & Architecture](#-features--architecture)
+- [💻 Tech Stack](#-tech-stack)
+- [📁 Project Structure](#-project-structure)
+- [⚡ Quick Start](#-quick-start)
+- [🎨 Customization Guide](#-customization-guide)
+- [📬 Author & Contact](#-author--contact)
+- [📄 License](#-license)
 
 ---
 
@@ -120,7 +120,7 @@ This repository contains the official portfolio codebase for **Dilshan**, a Crea
 
 ---
 
-## 🛠 Features & Architecture
+## 🛠️ Features & Architecture
 
 | Feature | Description |
 | :--- | :--- |
@@ -137,16 +137,15 @@ This repository contains the official portfolio codebase for **Dilshan**, a Crea
 
 ## 💻 Tech Stack
 
-### Core Technologies
-- **HTML5**: Semantic document structure, accessibility standards, and clean SEO meta tags.
-- **Tailwind CSS (CDN)**: Modern utility-first CSS framework customized with a futuristic cyber color scheme.
-- **JavaScript (ES6+)**: Modular application logic, event listeners, and UI interactivity.
+<div align="center">
 
-### Libraries & Frameworks
-- **[Three.js (r128)](https://threejs.org/)**: 3D scene creation, camera controls, particle simulation, and WebGL rendering.
-- **[Vanilla-Tilt.js](https://micku7zu.github.io/vanilla-tilt.js/)**: 3D parallax tilt physics on hover.
-- **[Lucide Icons](https://lucide.dev/)**: Minimalist modern SVG iconography.
-- **Google Fonts**: `Space Grotesk` (headings), `Outfit` (body typography), and `JetBrains Mono` (code & stats).
+| Core Frontend | 3D & Graphics | Utilities & Icons |
+| :---: | :---: | :---: |
+| [![HTML5](https://img.shields.io/badge/HTML5-E34F26?style=flat-square&logo=html5&logoColor=white)](https://developer.mozilla.org/en-US/docs/Web/HTML) | [![Three.js](https://img.shields.io/badge/Three.js-000000?style=flat-square&logo=threedotjs&logoColor=white)](https://threejs.org/) | [![Lucide](https://img.shields.io/badge/Lucide_Icons-F56565?style=flat-square&logo=feather&logoColor=white)](https://lucide.dev/) |
+| [![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-06B6D4?style=flat-square&logo=tailwindcss&logoColor=white)](https://tailwindcss.com/) | [![WebGL](https://img.shields.io/badge/WebGL_2.0-990000?style=flat-square&logo=webgl&logoColor=white)](https://www.khronos.org/webgl/) | [![VanillaTilt](https://img.shields.io/badge/Vanilla_Tilt-6366F1?style=flat-square&logo=javascript&logoColor=white)](https://micku7zu.github.io/vanilla-tilt.js/) |
+| [![JavaScript](https://img.shields.io/badge/JavaScript_ES6+-F7DF1E?style=flat-square&logo=javascript&logoColor=black)](https://developer.mozilla.org/en-US/docs/Web/JavaScript) | [![Web Audio API](https://img.shields.io/badge/Web_Audio_API-10B981?style=flat-square&logo=audio-technica&logoColor=white)](https://developer.mozilla.org/en-US/docs/Web/API/Web_Audio_API) | [![Google Fonts](https://img.shields.io/badge/Google_Fonts-4285F4?style=flat-square&logo=google&logoColor=white)](https://fonts.google.com/) |
+
+</div>
 
 ---
 
@@ -245,10 +244,15 @@ In [`js/3d-scene.js`](js/3d-scene.js), you can easily modify:
 ## 📬 Author & Contact
 
 **Dilshan** — Creative 3D Developer & Spatial UI Engineer
-- 🌐 **Location**: Colombo, Sri Lanka (Available for Worldwide Remote Contracts)
-- ✉️ **Email**: [dilshan.dev.space@gmail.com](mailto:dilshan.dev.space@gmail.com)
-- 💻 **GitHub**: [github.com](https://github.com)
-- 💼 **LinkedIn**: [linkedin.com](https://linkedin.com)
+
+<div align="left">
+
+[![GitHub](https://img.shields.io/badge/GitHub-Dilshan615-181717?style=for-the-badge&logo=github&logoColor=white)](https://github.com/Dilshan615)
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-Connect-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white)](https://linkedin.com)
+[![Email](https://img.shields.io/badge/Email-Transmit_Signal-EA4335?style=for-the-badge&logo=gmail&logoColor=white)](mailto:dilshan.dev.space@gmail.com)
+[![Location](https://img.shields.io/badge/Location-Colombo%2C_Sri_Lanka-00f0ff?style=for-the-badge&logo=google-maps&logoColor=black)](#)
+
+</div>
 
 ---
 
